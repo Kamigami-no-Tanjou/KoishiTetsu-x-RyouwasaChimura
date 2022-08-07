@@ -1,0 +1,10 @@
+USE ChimuraTest;
+
+CREATE TABLE Guild(
+    ID BIGINT UNSIGNED NOT NULL,
+    MaxWarningAmount INT UNSIGNED NOT NULL DEFAULT 3,
+    WarningCooldownStatus BIT NOT NULL DEFAULT 1,
+    WarningCooldown INT NOT NULL DEFAULT 14,
+    
+    PRIMARY KEY(ID)
+) ENGINE=INNODB;
