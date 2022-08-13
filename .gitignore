@@ -1,0 +1,5 @@
+# We exclude all .idea directories
+.idea/
+
+# And we exclude all configurations file as well, for safety reasons
+*.conf
