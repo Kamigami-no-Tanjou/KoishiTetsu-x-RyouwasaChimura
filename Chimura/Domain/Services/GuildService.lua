@@ -144,5 +144,5 @@ function deleteGuildAtId(id)
     local request = string.format(requestSkeleton, id)
 
     assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
-    -- Aaaand... that's it. Nothing more to do here :O
+    -- Aaand... that's it. Nothing more to do here (actually, there's a lot more to do, but that'll be for another time)
 end

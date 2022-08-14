@@ -11,8 +11,8 @@ ALTER TABLE CustomCommand
 ;
 
 ALTER TABLE Guild
-    MODIFY BirthdayAlerts BOOL NOT NULL,
-    MODIFY WarningCooldownStatus BOOL NOT NULL
+    MODIFY BirthdayAlerts BOOL NOT NULL DEFAULT 0,
+    MODIFY WarningCooldownStatus BOOL NOT NULL DEFAULT 1
 ;
 
 ALTER TABLE GuildDefaultCommand
