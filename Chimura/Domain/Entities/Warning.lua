@@ -34,10 +34,10 @@ Warning = {
 --- @return Warning the new instance of Warning.
 ---
 function Warning:new(object,
-                      id,
-                      memberId,
-                      amount,
-                      lastUpdate
+                     id,
+                     memberId,
+                     amount,
+                     lastUpdate
 )
     --For safety (if the table is nil)
     object = object or {}

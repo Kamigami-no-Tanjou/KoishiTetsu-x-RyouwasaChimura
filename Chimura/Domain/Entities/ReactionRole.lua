@@ -41,13 +41,13 @@ ReactionRole = {
 ---
 --- @return ReactionRole the new instance of ReactionRole.
 ---
-function AutoRole:new(object,
-                      id,
-                      messageId,
-                      guildId,
-                      roleId,
-                      emote,
-                      emoji
+function ReactionRole:new(object,
+                          id,
+                          messageId,
+                          guildId,
+                          roleId,
+                          emote,
+                          emoji
 )
     --For safety (if the table is nil)
     object = object or {}
