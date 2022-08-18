@@ -22,6 +22,7 @@ Member = {
     guildId = 0,
     muted = false,
     user = {},
+    guild = {},
     warning = {},
     customCommands = {}, --Relevant?
 }
@@ -36,6 +37,7 @@ Member = {
 --- @param guildId number The ID of the Guild it is attached to.
 --- @param muted boolean Whether the user is currently muted or not.
 --- @param user User The User attached to this Member.
+--- @param guild Guild The Guild instance this object is linked to.
 --- @param warning Warning The Warning attached to this Member.
 --- @param customCommands CustomCommand[] The array of custom commands linked to this instance of Member.
 ---
@@ -47,6 +49,7 @@ function Member:new(object,
                     guildId,
                     muted,
                     user,
+                    guild,
                     warning,
                     customCommands
 )
@@ -69,6 +72,7 @@ function Member:new(object,
 
     --These values are not meant to be inserted in the database (or perhaps not the standard way)
     object.user = user or object.user or nil
+    object.guild = guild or object.guild or nil
     object.warning = warning or object.warning or nil
     object.customCommands = customCommands or object.customCommands or nil
 

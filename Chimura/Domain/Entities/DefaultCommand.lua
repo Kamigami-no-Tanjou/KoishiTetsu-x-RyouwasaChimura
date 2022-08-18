@@ -32,7 +32,7 @@ DefaultCommand = {
 ---
 --- @return DefaultCommand the new instance of DefaultCommand.
 ---
-function CustomCommand:new(object,
+function DefaultCommand:new(object,
                            id,
                            name,
                            description,
