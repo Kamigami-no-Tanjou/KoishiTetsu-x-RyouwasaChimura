@@ -82,9 +82,9 @@ function CustomCommand:new(object,
     object.id = tonumber(id or object.id) or nil
     object.name = name or object.name or nil
     object.description = description or object.description or nil
-    object.enabled = affectBool(tonumber(enabled or object.enabled)) or nil
-    object.slashless = affectBool(tonumber(slashless or object.slashless)) or nil
-    object.triggeredFromContent = affectBool(tonumber(triggeredFromContent or object.triggeredFromContent)) or nil
+    object.enabled = affectBool(enabled or object.enabled) or nil
+    object.slashless = affectBool(slashless or object.slashless) or nil
+    object.triggeredFromContent = affectBool(triggeredFromContent or object.triggeredFromContent) or nil
     object.output = output or object.output or nil
     object.guildId = tonumber(guildId or object.guildId) or nil
 

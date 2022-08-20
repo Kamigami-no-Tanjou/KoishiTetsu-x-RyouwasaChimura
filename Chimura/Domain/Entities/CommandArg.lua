@@ -69,7 +69,7 @@ function CommandArg:new(object,
     object.name = name or object.name or nil
     object.description = description or object.description or nil
     object.type = type or object.type or nil
-    object.optional = affectBool(tonumber(optional or object.optional)) or nil
+    object.optional = affectBool(optional or object.optional) or nil
     object.defaultCommandId = tonumber(defaultCommandId or object.defaultCommandId) or nil
     object.customCommandId = tonumber(customCommandId or object.customCommandId) or nil
 

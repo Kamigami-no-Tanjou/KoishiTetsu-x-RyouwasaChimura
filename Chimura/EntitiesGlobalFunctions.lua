@@ -23,15 +23,24 @@
 --- @return boolean The boolean value corresponding to the given parameter, according to the table discussed earlier.
 ---
 function affectBool(val)
-    local type = type(val)
+    local typeVal = type(val)
+    local realVal
 
-    if type == "boolean" then
+    -- If it is a string, we try to get a number out of it
+    if typeVal == "string" then
+        realVal = tonumber(val)
+        typeVal = type(realVal)
+    else
+        realVal = val
+    end
+
+    if typeVal == "boolean" then
         -- Nothing to do, the value is already a boolean
-        return val
-    elseif type == "number" then
-        assert(val >= 0, "{ \"err\":\"Illegal argument!\" }")
+        return realVal
+    elseif typeVal == "number" then
+        assert(realVal >= 0, "{ \"err\":\"Illegal argument!\" }")
 
-        return (val > 0)
+        return (realVal > 0)
     else
         return nil
     end

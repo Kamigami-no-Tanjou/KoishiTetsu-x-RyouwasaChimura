@@ -86,11 +86,11 @@ function Guild:new(object,
     --]]
     object.id = tonumber(id or object.id or 0)
     object.maxWarningAmount = tonumber(maxWarningAmount or object.maxWarningAmount or 3)
-    object.warningCooldownStatus = affectBool(tonumber(warningCooldownStatus or object.warningCooldownStatus or true))
+    object.warningCooldownStatus = affectBool(warningCooldownStatus or object.warningCooldownStatus or true)
     object.warningCooldown = tonumber(warningCooldown or object.warningCooldown or 14)
     object.mutedCooldown = tonumber(mutedCooldown or object.mutedCooldown or 24)
     object.mutedRoleId = tonumber(mutedRoleId or object.mutedRoleId or nil)
-    object.birthdayAlerts = affectBool(tonumber(birthdayAlerts or object.birthdayAlerts or false))
+    object.birthdayAlerts = affectBool(birthdayAlerts or object.birthdayAlerts or false)
 
     --These values are not meant to be inserted in the database (or perhaps not the standard way)
     object.members = members or object.members or nil

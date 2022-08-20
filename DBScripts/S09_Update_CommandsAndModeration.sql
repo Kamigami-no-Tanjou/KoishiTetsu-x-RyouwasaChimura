@@ -25,3 +25,12 @@ ALTER TABLE Guild
     ADD MutedRoleID BIGINT,
     ADD BirthdayAlerts BIT NOT NULL
 ;
+
+ALTER TABLE MemberCustomCommand
+    DROP CONSTRAINT MemberCustomCommand_ibfk_1,
+    DROP CONSTRAINT MemberCustomCommand_ibfk_2,
+    DROP COLUMN GuildID,
+    DROP COLUMN UserID,
+    ADD MemberID INT UNSIGNED NOT NULL,
+    ADD FOREIGN KEY(MemberID) REFERENCES Member(ID)
+;

@@ -56,7 +56,7 @@ function Language:new(object,
     object.id = tonumber(id or object.id) or nil
     object.abbreviation = abbreviation or object.abbreviation or nil
     object.name = name or object.name or nil
-    object.supported = affectBool(tonumber(supported or object.supported)) or nil
+    object.supported = affectBool(supported or object.supported) or nil
 
     return object
 end

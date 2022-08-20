@@ -68,7 +68,7 @@ function Member:new(object,
     object.id = tonumber(id or object.id) or nil
     object.userId = tonumber(userId or object.userId) or nil
     object.guildId = tonumber(guildId or object.guildId) or nil
-    object.muted = affectBool(tonumber(muted or object.muted)) or nil
+    object.muted = affectBool(muted or object.muted) or nil
 
     --These values are not meant to be inserted in the database (or perhaps not the standard way)
     object.user = user or object.user or nil
