@@ -1,5 +1,6 @@
-# We exclude all .idea directories
+# We exclude all .idea and all Tests directories
 .idea/
+Tests/
 
 # And we exclude all configurations file as well, for safety reasons
 *.conf

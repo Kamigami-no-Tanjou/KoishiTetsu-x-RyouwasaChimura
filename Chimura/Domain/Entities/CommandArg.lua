@@ -20,13 +20,13 @@ require 'Chimura.EntitiesGlobalFunctions'
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 CommandArg = {
-    id = 0,
-    name = "",
-    description = "",
-    type = '',
-    optional = false,
-    defaultCommandId = 0,
-    customCommandId = 0
+    id = nil, -- : int
+    name = nil, -- : string
+    description = nil, -- : string
+    type = nil, -- : char
+    optional = nil, -- : boolean
+    defaultCommandId = nil, -- : int
+    customCommandId = nil -- : int
 }
 
 ---

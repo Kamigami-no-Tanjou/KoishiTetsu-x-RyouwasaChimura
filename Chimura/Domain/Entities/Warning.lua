@@ -15,10 +15,10 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 Warning = {
-    id = 0,
-    memberId = 0,
-    amount = 0,
-    lastUpdate = {},
+    id = nil, -- : int
+    memberId = nil, -- : int
+    amount = nil, -- : int
+    lastUpdate = nil -- : Date
 }
 
 ---

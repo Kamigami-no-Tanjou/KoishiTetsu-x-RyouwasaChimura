@@ -16,12 +16,12 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 Spell = {
-    id = 0,
-    guildRPGId = 0,
-    name = "",
-    description = "",
-    dailyQuota = 0,
-    guildRPG = {}
+    id = nil, -- : int
+    guildRPGId = nil, -- : int
+    name = nil, -- : string
+    description = nil, -- : string
+    dailyQuota = nil, -- : int
+    guildRPG = nil -- : GuildRPG
 }
 
 ---

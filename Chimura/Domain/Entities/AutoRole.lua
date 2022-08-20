@@ -13,8 +13,8 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 AutoRole = {
-    id = 0,
-    guildId = 0
+    id = nil, -- : int
+    guildId = nil -- : int
 }
 
 ---

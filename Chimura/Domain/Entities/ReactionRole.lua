@@ -17,12 +17,12 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 ReactionRole = {
-    id = 0,
-    messageId = 0,
-    guildId = 0,
-    roleId = 0,
-    emote = "",
-    emoji = ""
+    id = nil, -- : int
+    messageId = nil, -- : int
+    guildId = nil, -- : int
+    roleId = nil, -- : int
+    emote = nil, -- : string
+    emoji = nil -- : string
 }
 
 ---

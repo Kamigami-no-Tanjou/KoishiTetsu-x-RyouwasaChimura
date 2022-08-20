@@ -21,17 +21,17 @@ require 'Chimura.EntitiesGlobalFunction'
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 CustomCommand = {
-    id = 0,
-    name = "",
-    description = "",
-    enabled = false,
-    slashless = false,
-    triggeredFromContent = false,
-    output = "",
-    guildId = 0,
-    commandArgs = {},
-    roles = {},
-    members = {}
+    id = nil, -- : int
+    name = nil, -- : string
+    description = nil, -- : string
+    enabled = nil, -- : boolean
+    slashless = nil, -- : boolean
+    triggeredFromContent = nil, -- : boolean
+    output = nil, -- : string
+    guildId = nil, -- : int
+    commandArgs = nil, -- : CommandArg[]
+    roles = nil, -- : int[]
+    members = nil -- : Member[]
 }
 
 ---

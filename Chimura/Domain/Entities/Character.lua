@@ -22,24 +22,24 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 Character = {
-    id = 0,
-    userId = 0,
-    guildRPGId = 0,
-    genreId = 0,
-    classId = 0,
-    specieId = 0,
-    beliefId = 0,
-    firstName = "",
-    lastName = "",
-    alignment = "",
-    image = "",
-    user = {},
-    guildRPG = {},
-    genre = {},
-    class = {},
-    specie = {},
-    belief = {},
-    characterStats = {}
+    id = nil, -- : int
+    userId = nil, -- : int
+    guildRPGId = nil, -- : int
+    genreId = nil, -- : int
+    classId = nil, -- : int
+    specieId = nil, -- : int
+    beliefId = nil, -- : int
+    firstName = nil, -- : string
+    lastName = nil, -- : string
+    alignment = nil, -- : string
+    image = nil, -- : string
+    user = nil, -- : User
+    guildRPG = nil, -- : GuildRPG
+    genre = nil, -- : Genre
+    class = nil, -- : Class
+    specie = nil, -- : Specie
+    belief = nil, -- : Belief
+    characterStats = nil, -- CharacterStat[]
 }
 
 ---

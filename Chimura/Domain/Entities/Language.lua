@@ -17,10 +17,10 @@ require 'Chimura.EntitiesGlobalFunctions'
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 Language = {
-    id = 0,
-    abbreviation = "",
-    name = "",
-    supported = false
+    id = nil, -- : int
+    abbreviation = nil, -- : string
+    name = nil, -- : string
+    supported = nil -- : boolean
 }
 
 ---

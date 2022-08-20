@@ -17,14 +17,14 @@ require 'Chimura.EntitiesGlobalFunctions'
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 Member = {
-    id = 0,
-    userId = 0,
-    guildId = 0,
-    muted = false,
-    user = {},
-    guild = {},
-    warning = {},
-    customCommands = {}, --Relevant?
+    id = nil, -- : int
+    userId = nil, -- : int
+    guildId = nil, -- : int
+    muted = nil, -- : boolean
+    user = nil, -- : User
+    guild = nil, -- : Guild
+    warning = nil, -- : Warning
+    customCommands = nil -- : CustomCommand[] ; Relevant?
 }
 
 ---

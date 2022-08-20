@@ -14,10 +14,10 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 Genre = {
-    id = 0,
-    guildRPGId = 0,
-    name = "",
-    guildRPG = {}
+    id = nil, -- : int
+    guildRPGId = nil, -- : int
+    name = nil, -- : string
+    guildRPG = nil -- : GuildRPG
 }
 
 ---

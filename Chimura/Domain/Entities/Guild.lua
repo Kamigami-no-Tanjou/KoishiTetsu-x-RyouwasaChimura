@@ -20,19 +20,19 @@ require 'Chimura.EntitiesGlobalFunctions'
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 Guild = {
-    id = 0,
-    maxWarningAmount = 3,
-    warningCooldownStatus = true,
-    warningCooldown = 14,
-    mutedCooldown = 24,
-    mutedRoleId = nil, --Thanks to the dynamic types, ints can be nil! :D
-    birthdayAlerts = false,
-    members = {},
-    autoRoles = {},
-    reactionRoles = {},
-    disabledCommands = {},
-    customCommands = {},
-    rolePlayingGames = {}
+    id = nil, -- : int
+    maxWarningAmount = nil, -- : int
+    warningCooldownStatus = nil, -- : boolean
+    warningCooldown = nil, -- : int
+    mutedCooldown = nil, -- : int
+    mutedRoleId = nil, -- : int ; Thanks to the dynamic types, ints can be nil! :D
+    birthdayAlerts = nil, -- : boolean
+    members = nil, -- : Member[]
+    autoRoles = nil, -- : AutoRole[]
+    reactionRoles = nil, -- : ReactionRole[]
+    disabledCommands = nil, -- : DefaultCommand[]
+    customCommands = nil, -- : CustomCommand[]
+    rolePlayingGames = nil -- : GuildRPG[]
 }
 
 ---

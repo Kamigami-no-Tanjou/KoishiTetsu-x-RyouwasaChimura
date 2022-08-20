@@ -15,12 +15,12 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 StatAlteration = {
-    id = 0,
-    guildRPGId = 0,
-    statId = 0,
-    value = 0,
-    guildRPG = {},
-    stat = {}
+    id = nil, -- : int
+    guildRPGId = nil, -- : int
+    statId = nil, -- : int
+    value = nil, -- : int
+    guildRPG = nil, -- : GuildRPG
+    stat = nil -- : Stat
 }
 
 ---

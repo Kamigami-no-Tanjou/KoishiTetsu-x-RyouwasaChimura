@@ -16,14 +16,14 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 User = {
-    id = 0,
-    languageId = 0,
-    experience = 0,
-    timeZone = 0,
-    birthdate = {},
-    language = {},
-    members = {},
-    characters = {}
+    id = nil, -- : int
+    languageId = nil, -- : int
+    experience = nil, -- : int
+    timeZone = nil, -- : int
+    birthdate = nil, -- : Date
+    language = nil, -- : Language
+    members = nil, -- : Member[]
+    characters = nil -- : Character[]
 }
 
 ---

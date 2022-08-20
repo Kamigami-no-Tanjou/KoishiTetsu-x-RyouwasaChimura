@@ -15,12 +15,12 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 Belief = {
-    id = 0,
-    guildRPGId = 0,
-    name = "",
-    description = "",
-    guildRPG = {},
-    divinities = {}
+    id = nil, -- : int
+    guildRPGId = nil, -- : int
+    name = nil, -- : string
+    description = nil, -- : string
+    guildRPG = nil, -- : GuildRPG
+    divinities = nil -- : Divinity[]
 }
 
 ---

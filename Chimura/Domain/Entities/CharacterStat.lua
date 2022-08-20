@@ -15,12 +15,12 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 CharacterStat = {
-    id = 0,
-    characterId = 0,
-    statId = 0,
-    value = 0,
-    character = {},
-    stat = {}
+    id = nil, -- : int
+    characterId = nil, -- : int
+    statId = nil, -- : int
+    value = nil, -- : int
+    character = nil, -- : Character
+    stat = nil -- : Stat
 }
 
 ---

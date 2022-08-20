@@ -19,9 +19,9 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 Date = {
-    year = "",
-    month = "",
-    day = ""
+    year = nil, -- : string
+    month = nil, -- : string
+    day = nil -- : string
 }
 
 ---

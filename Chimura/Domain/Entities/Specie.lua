@@ -15,12 +15,12 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 Specie = {
-    id = 0,
-    guildRPGId = 0,
-    name = "",
-    description = "",
-    guildRPG = {},
-    statAlterations = {}
+    id = nil, -- : int
+    guildRPGId = nil, -- : int
+    name = nil, -- : string
+    description = nil, -- : string
+    guildRPG = nil, -- : GuildRPG
+    statAlterations = nil -- : StatAlteration[]
 }
 
 ---

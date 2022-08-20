@@ -13,19 +13,19 @@
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
 ---
 GuildRPG = {
-    id = 0,
-    guildId = 0,
-    guild = {},
-    characters = {},
-    equipments = {},
-    spells = {},
-    classes = {},
-    stats = {},
-    beliefs = {},
-    divinities = {},
-    species = {},
-    genres = {},
-    statAlterations = {}
+    id = nil, -- : int
+    guildId = nil, -- : int
+    guild = nil, -- : Guild
+    characters = nil, -- : Character[]
+    equipments = nil, -- : Equipment[]
+    spells = nil, -- : Spell[]
+    classes = nil, -- : Class[]
+    stats = nil, -- : Stat[]
+    beliefs = nil, -- : Belief[]
+    divinities = nil, -- : Divinity[]
+    species = nil, -- : Specie[]
+    genres = nil, -- : Genre[]
+    statAlterations = nil -- : StatAlteration[]
 }
 
 ---
