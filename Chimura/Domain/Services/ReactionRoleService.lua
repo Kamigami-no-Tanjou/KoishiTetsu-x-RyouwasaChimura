@@ -71,13 +71,13 @@ function retrieveReactionRoleFromGuildId(guildId)
     local request = string.format(requestSkeleton, guildId)
 
     local result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
-    local row = assert(result:fetch({}, "a"), "{ \"err\":\"No lines found!\" }")
+    local row = result:fetch({}, "a")
 
     local i = 1
     while row do
         reactionRoles[i] = ReactionRole:new(row)
 
-        row = result:fetch({}, "a") --, "{ \"err\":\"Failed fetching line " .. i .. "!\" }")
+        row = result:fetch({}, "a")
         i = i + 1
     end
 
@@ -144,7 +144,6 @@ function insertOrUpdateReactionRole(row)
                 varchar(row.emote) or "NULL",
                 varchar(row.emoji) or "NULL"
         )
-        --print(request)
 
         result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
     end
