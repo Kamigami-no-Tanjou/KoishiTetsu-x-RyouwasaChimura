@@ -11,12 +11,22 @@
 
 ---
 --- Returns the boolean value of the given parameter.
---- Boolean : -> true       => true
+--- ```
+--- 1.
+--- String  : => Attempt to convert it to a number.
+---           -> success    => Number
+---           -> fail       => Other
+---
+--- 2.
+--- Boolean :
+---           -> true       => true
 ---           -> false      => false
---- Number  : -> 0          => false
+--- Number  :
+---           -> 0          => false
 ---           -> ]0;+inf[   => true
 ---           -> ]-inf;0[   => error (illegal argument)
---- Other => nil.
+--- Other   : => nil
+--- ```
 ---
 --- @param val any Whether a boolean or a number.
 ---
