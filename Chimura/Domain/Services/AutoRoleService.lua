@@ -7,8 +7,10 @@
 --- @since 1.0.0
 ---
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
+--- @return self
 ---
-require 'Chimura.SetEnvironment'
+local AutoRoleService = {}
+local env = require 'Chimura.SetEnvironment'
 require 'Chimura.Domain.Entities.AutoRole'
 
 ---
@@ -18,7 +20,7 @@ require 'Chimura.Domain.Entities.AutoRole'
 ---
 --- @return AutoRole The row of the DB corresponding to the given ID.
 ---
-function retrieveAutoRoleFromId(id)
+function AutoRoleService.retrieveFromId(id)
     assert(id ~= nil and id > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         SELECT
@@ -32,7 +34,7 @@ function retrieveAutoRoleFromId(id)
 
     local request = string.format(requestSkeleton, id)
 
-    local result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    local result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     local row = assert(result:fetch({}, "a"), "{ \"err\":\"No lines found!\" }")
 
     result:close()
@@ -46,7 +48,7 @@ end
 ---
 --- @return AutoRole[] The list of AutoRoles corresponding to the given Guild.
 ---
-function retrieveAutoRoleFromGuildId(guildId)
+function AutoRoleService.retrieveFromGuildId(guildId)
     local autoRoles = {}
 
     assert(guildId ~= nil and guildId > 0, "{ \"err\":\"Bad ID!\" }")
@@ -61,7 +63,7 @@ function retrieveAutoRoleFromGuildId(guildId)
 
     local request = string.format(requestSkeleton, guildId)
 
-    local result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    local result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     local row = result:fetch({}, "a")
 
     local i = 1
@@ -83,7 +85,9 @@ end
 ---
 --- @param row AutoRole The AutoRole object to insert in the database.
 ---
-function insertAutoRole(row)
+--- @return void
+---
+function AutoRoleService.insert(row)
     local requestSkeleton = [[
         INSERT INTO AutoRole(
             ID,
@@ -100,7 +104,7 @@ function insertAutoRole(row)
             row.guildId or "NULL"
     )
 
-    assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
 
     --result:close() /!\ Here result is not a cursor!
 end
@@ -112,7 +116,9 @@ end
 ---
 --- @param id number The Discord-like ID of the auto role to remove from the database.
 ---
-function deleteAutoRoleAtId(id)
+--- @return void
+---
+function AutoRoleService.deleteAtId(id)
     assert(id ~= nil and id > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         DELETE FROM AutoRole
@@ -122,7 +128,7 @@ function deleteAutoRoleAtId(id)
 
     local request = string.format(requestSkeleton, id)
 
-    assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     -- Aaand... that's it. Nothing more to do here
 end
 
@@ -134,7 +140,9 @@ end
 ---
 --- @param guildId number The Discord-like ID of the Guild to remove all reaction roles from.
 ---
-function deleteAutoRoleAtGuildId(guildId)
+--- @return void
+---
+function AutoRoleService.deleteAtGuildId(guildId)
     assert(guildId ~= nil and guildId > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         DELETE FROM AutoRole
@@ -144,5 +152,16 @@ function deleteAutoRoleAtGuildId(guildId)
 
     local request = string.format(requestSkeleton, guildId)
 
-    assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
 end
+
+---
+--- Calls for the environment set in this service to close. Has to be called at the very end of all treatments!!
+---
+--- @return void
+---
+function AutoRoleService.closeEnv()
+    env.close()
+end
+
+return AutoRoleService

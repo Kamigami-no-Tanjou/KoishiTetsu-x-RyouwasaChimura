@@ -7,8 +7,10 @@
 --- @since 1.0.0
 ---
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
+--- @return self
 ---
-require 'Chimura.SetEnvironment'
+local WarningService = {}
+local env = require 'Chimura.SetEnvironment'
 require 'Chimura.Domain.Entities.Warning'
 require 'Chimura.Domain.Entities.Date'
 
@@ -19,7 +21,7 @@ require 'Chimura.Domain.Entities.Date'
 ---
 --- @return Warning The row of the DB corresponding to the given ID.
 ---
-function retrieveWarningFromId(id)
+function WarningService.retrieveFromId(id)
     assert(id ~= nil and id > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         SELECT
@@ -35,7 +37,7 @@ function retrieveWarningFromId(id)
 
     local request = string.format(requestSkeleton, id)
 
-    local result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    local result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     local row = assert(result:fetch({}, "a"), "{ \"err\":\"No lines found!\" }")
 
     -- Now we create the instance of Date for the LastUpdate:
@@ -52,7 +54,9 @@ end
 ---
 --- @param row Warning The Warning object to insert or update in the database.
 ---
-function insertOrUpdateWarning(row)
+--- @return void
+---
+function WarningService.insertOrUpdate(row)
     local isNotNew = ((row.id or 0) ~= 0) --If id == nil => 0; if id == 0 => 0; if id > 0 => id;
 
     if isNotNew then    -- update
@@ -70,7 +74,7 @@ function insertOrUpdateWarning(row)
                 row.id
         )
 
-        assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+        assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
         -- No need to fetch anything here
 
     else                -- insert
@@ -92,7 +96,7 @@ function insertOrUpdateWarning(row)
                 row.amount or "NULL"
         )
 
-        assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+        assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     end
 
 end
@@ -104,7 +108,9 @@ end
 ---
 --- @param id number The ID of the warning to remove from the database.
 ---
-function deleteWarningAtId(id)
+--- @return void
+---
+function WarningService.deleteAtId(id)
     assert(id ~= nil and id > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         DELETE FROM Warning
@@ -114,6 +120,17 @@ function deleteWarningAtId(id)
 
     local request = string.format(requestSkeleton, id)
 
-    assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     -- Aaand... that's it. Nothing more to do here
 end
+
+---
+--- Calls for the environment set in this service to close. Has to be called at the very end of all treatments!!
+---
+--- @return void
+---
+function WarningService.closeEnv()
+    env.close()
+end
+
+return WarningService

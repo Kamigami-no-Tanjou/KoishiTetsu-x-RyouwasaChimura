@@ -7,9 +7,11 @@
 --- @since 1.0.0
 ---
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
+--- @return self
 ---
-require 'Chimura.SetEnvironment'
-require 'Chimura.ServicesGlobalFunctions'
+local CommandArgService = {}
+local env = require 'Chimura.SetEnvironment'
+local sUtils = require 'Chimura.ServicesGlobalFunctions'
 require 'Chimura.Domain.Entities.CommandArg'
 
 ---
@@ -19,7 +21,7 @@ require 'Chimura.Domain.Entities.CommandArg'
 ---
 --- @return CommandArg The row of the DB corresponding to the given ID.
 ---
-function retrieveCommandArgFromId(id)
+function CommandArgService.retrieveFromId(id)
     assert(id ~= nil and id > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         SELECT
@@ -38,7 +40,7 @@ function retrieveCommandArgFromId(id)
 
     local request = string.format(requestSkeleton, id)
 
-    local result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    local result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     local row = assert(result:fetch({}, "a"), "{ \"err\":\"No lines found!\" }")
 
     result:close()
@@ -52,7 +54,7 @@ end
 ---
 --- @return CommandArg[] The array of CommandArgs belonging to the given DefaultCommand.
 ---
-function retrieveCommandArgFromDefaultCommandId(defaultCommandId)
+function CommandArgService.retrieveFromDefaultCommandId(defaultCommandId)
     local commandArgs = {}
 
     assert(defaultCommandId ~= nil and defaultCommandId > 0, "{ \"err\":\"Bad ID!\" }")
@@ -72,7 +74,7 @@ function retrieveCommandArgFromDefaultCommandId(defaultCommandId)
 
     local request = string.format(requestSkeleton, defaultCommandId)
 
-    local result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    local result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     local row = result:fetch({}, "a")
 
     local i = 1
@@ -94,7 +96,7 @@ end
 ---
 --- @return CommandArg[] The array of CommandArgs belonging to the given CustomCommand.
 ---
-function retrieveCommandArgFromCustomCommandId(customCommandId)
+function CommandArgService.retrieveFromCustomCommandId(customCommandId)
     local commandArgs = {}
 
     assert(customCommandId ~= nil and customCommandId > 0, "{ \"err\":\"Bad ID!\" }")
@@ -114,7 +116,7 @@ function retrieveCommandArgFromCustomCommandId(customCommandId)
 
     local request = string.format(requestSkeleton, customCommandId)
 
-    local result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    local result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     local row = result:fetch({}, "a")
 
     local i = 1
@@ -135,7 +137,9 @@ end
 ---
 --- @param row CommandArg The CommandArg object to insert or update in the database.
 ---
-function insertOrUpdateCommandArg(row)
+--- @return void
+---
+function CommandArgService.insertOrUpdate(row)
     local isNotNew = ((row.id or 0) ~= 0) --If id == nil => 0; if id == 0 => 0; if id > 0 => id;
 
     if isNotNew then    -- update
@@ -151,14 +155,14 @@ function insertOrUpdateCommandArg(row)
         ]]
 
         local request = string.format(requestSkeleton,
-                varchar(row.name) or "NULL",
-                varchar(row.description) or "NULL",
-                varchar(row.type) or "NULL",
+                sUtils.varchar(row.name) or "NULL",
+                sUtils.varchar(row.description) or "NULL",
+                sUtils.varchar(row.type) or "NULL",
                 row.optional,
                 row.id
         )
 
-        assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+        assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
         -- No need to fetch anything here
 
     else                -- insert
@@ -182,15 +186,15 @@ function insertOrUpdateCommandArg(row)
         ]]
 
         local request = string.format(requestSkeleton,
-                varchar(row.name) or "NULL",
-                varchar(row.description) or "NULL",
-                varchar(row.type) or "NULL",
+                sUtils.varchar(row.name) or "NULL",
+                sUtils.varchar(row.description) or "NULL",
+                sUtils.varchar(row.type) or "NULL",
                 row.optional,
                 row.defaultCommandId or "NULL",
                 row.customCommandId or "NULL"
         )
 
-        assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+        assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     end
 
 end
@@ -202,7 +206,9 @@ end
 ---
 --- @param id number The ID of the command arg to remove from the database.
 ---
-function deleteCommandArgAtId(id)
+--- @return void
+---
+function CommandArgService.deleteAtId(id)
     assert(id ~= nil and id > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         DELETE FROM CommandArg
@@ -212,7 +218,7 @@ function deleteCommandArgAtId(id)
 
     local request = string.format(requestSkeleton, id)
 
-    assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     -- Aaand... that's it. Nothing more to do here
 end
 
@@ -223,7 +229,9 @@ end
 ---
 --- @param defaultCommandId number The ID of the DefaultCommand to remove command args from.
 ---
-function deleteCommandArgAtDefaultCommandId(defaultCommandId)
+--- @return void
+---
+function CommandArgService.deleteAtDefaultCommandId(defaultCommandId)
     assert(defaultCommandId ~= nil and defaultCommandId > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         DELETE FROM CommandArg
@@ -233,7 +241,7 @@ function deleteCommandArgAtDefaultCommandId(defaultCommandId)
 
     local request = string.format(requestSkeleton, defaultCommandId)
 
-    assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     -- Aaand... that's it. Nothing more to do here
 end
 
@@ -244,7 +252,9 @@ end
 ---
 --- @param customCommandId number The ID of the CustomCommand to remove command args from.
 ---
-function deleteCommandArgAtCustomCommandId(customCommandId)
+--- @return void
+---
+function CommandArgService.deleteAtCustomCommandId(customCommandId)
     assert(customCommandId ~= nil and customCommandId > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         DELETE FROM CommandArg
@@ -254,6 +264,17 @@ function deleteCommandArgAtCustomCommandId(customCommandId)
 
     local request = string.format(requestSkeleton, customCommandId)
 
-    assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     -- Aaand... that's it. Nothing more to do here
 end
+
+---
+--- Calls for the environment set in this service to close. Has to be called at the very end of all treatments!!
+---
+--- @return void
+---
+function CommandArgService.closeEnv()
+    env.close()
+end
+
+return CommandArgService

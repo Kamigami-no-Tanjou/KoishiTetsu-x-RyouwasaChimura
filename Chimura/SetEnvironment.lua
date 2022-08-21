@@ -7,24 +7,32 @@
 --- @since 1.0.0
 ---
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
+--- @return self
 ---
-mysql = require 'luasql.mysql'
-params = require 'Chimura.Params'
+local mysql = require 'luasql.mysql'
+local params = require 'Chimura.Params'
+local Environment = {}
 
-if isTest then
+local conf
+
+if params.isTest then
     conf = assert(io.open("dbAuthTest.conf", "r"))
 else
     conf = assert(io.open("dbAuth.conf" ,"r"))
 end
 
-env = assert(mysql.mysql())
-con = assert(env:connect(conf:read("*line"), conf:read("*line"), conf:read("*line")))
+Environment.env = assert(mysql.mysql())
+Environment.con = assert(Environment.env:connect(conf:read("*line"), conf:read("*line"), conf:read("*line")))
 
 ---
 --- Closes the current connection. Will require to import the script again in order to make new requests.
 --- This method is meant to be called when exiting a use case that made a database request !
 ---
-function close()
-    con:close()
-    env:close()
+--- @return void
+---
+function Environment.close()
+    Environment.con:close()
+    Environment.env:close()
 end
+
+return Environment

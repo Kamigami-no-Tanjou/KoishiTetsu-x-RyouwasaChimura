@@ -7,7 +7,9 @@
 --- @since 1.0.0
 ---
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
+--- @return self
 ---
+local EntityUtils = {}
 
 ---
 --- Returns the boolean value of the given parameter.
@@ -32,7 +34,7 @@
 ---
 --- @return boolean The boolean value corresponding to the given parameter, according to the table discussed earlier.
 ---
-function affectBool(val)
+function EntityUtils.affectBool(val)
     local typeVal = type(val)
     local realVal
 
@@ -55,3 +57,5 @@ function affectBool(val)
         return nil
     end
 end
+
+return EntityUtils

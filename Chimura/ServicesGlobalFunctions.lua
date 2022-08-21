@@ -7,7 +7,9 @@
 --- @since 1.0.0
 ---
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
+--- @return self
 ---
+local ServiceUtils = {}
 
 ---
 --- Turns the given value to a valid SQL string.
@@ -16,10 +18,12 @@
 ---
 --- @return string The valid SQL string to send to the database.
 ---
-function varchar(val)
+function ServiceUtils.varchar(val)
     if val == nil then
         return nil
     else
         return "'" .. val .. "'"
     end
 end
+
+return ServiceUtils

@@ -7,10 +7,14 @@
 --- @since 1.0.0
 ---
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
+--- @return self
 ---
+local Params = {}
 
 -- We load the config file in the config variable
-config = assert(io.open("../config.conf", "r"))
+Params.config = assert(io.open("../config.conf", "r"))
 
 -- First parameter (one parameter per line) : whether the current instance is in test or production environment
-isTest = config:read("*line") == "TEST"
+Params.isTest = Params.config:read("*line") == "TEST"
+
+return Params

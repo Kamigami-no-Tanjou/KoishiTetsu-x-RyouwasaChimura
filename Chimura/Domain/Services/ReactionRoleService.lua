@@ -7,9 +7,11 @@
 --- @since 1.0.0
 ---
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
+--- @return self
 ---
-require 'Chimura.SetEnvironment'
-require 'Chimura.ServicesGlobalFunctions'
+local ReactionRoleService = {}
+local env = require 'Chimura.SetEnvironment'
+local sUtils = require 'Chimura.ServicesGlobalFunctions'
 require 'Chimura.Domain.Entities.ReactionRole'
 
 ---
@@ -19,7 +21,7 @@ require 'Chimura.Domain.Entities.ReactionRole'
 ---
 --- @return ReactionRole The row of the DB corresponding to the given ID.
 ---
-function retrieveReactionRoleFromId(id)
+function ReactionRoleService.retrieveFromId(id)
     assert(id ~= nil and id > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         SELECT
@@ -37,7 +39,7 @@ function retrieveReactionRoleFromId(id)
 
     local request = string.format(requestSkeleton, id)
 
-    local result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    local result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     local row = assert(result:fetch({}, "a"), "{ \"err\":\"No lines found!\" }")
 
     result:close()
@@ -51,7 +53,7 @@ end
 ---
 --- @return ReactionRole[] The list of ReactionRoles the DB corresponding to the given Guild.
 ---
-function retrieveReactionRoleFromGuildId(guildId)
+function ReactionRoleService.retrieveFromGuildId(guildId)
     local reactionRoles = {}
 
     assert(guildId ~= nil and guildId > 0, "{ \"err\":\"Bad ID!\" }")
@@ -70,7 +72,7 @@ function retrieveReactionRoleFromGuildId(guildId)
 
     local request = string.format(requestSkeleton, guildId)
 
-    local result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    local result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     local row = result:fetch({}, "a")
 
     local i = 1
@@ -92,7 +94,9 @@ end
 ---
 --- @param row ReactionRole The ReactionRole object to insert or update in the database.
 ---
-function insertOrUpdateReactionRole(row)
+--- @return void
+---
+function ReactionRoleService.insertOrUpdate(row)
     local isNotNew = ((row.id or 0) ~= 0) --If id == nil => 0; if id == 0 => 0; if id > 0 => id;
 
     if isNotNew then    -- update
@@ -112,12 +116,12 @@ function insertOrUpdateReactionRole(row)
                 row.messageId or "NULL",
                 row.guildId or "NULL",
                 row.roleId or "NULL",
-                varchar(row.emote) or "NULL",
-                varchar(row.emoji) or "NULL",
+                sUtils.varchar(row.emote) or "NULL",
+                sUtils.varchar(row.emoji) or "NULL",
                 row.id
         )
 
-        result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+        assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
         -- No need to fetch anything here
     else                -- insert
         local requestSkeleton = [[
@@ -141,11 +145,11 @@ function insertOrUpdateReactionRole(row)
                 row.messageId or "NULL",
                 row.guildId or "NULL",
                 row.roleId or "NULL",
-                varchar(row.emote) or "NULL",
-                varchar(row.emoji) or "NULL"
+                sUtils.varchar(row.emote) or "NULL",
+                sUtils.varchar(row.emoji) or "NULL"
         )
 
-        result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+        assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     end
 
     --result:close() /!\ Here result is not a cursor!
@@ -158,7 +162,9 @@ end
 ---
 --- @param id number The ID of the reaction role to remove from the database.
 ---
-function deleteReactionRoleAtId(id)
+--- @return void
+---
+function ReactionRoleService.deleteAtId(id)
     assert(id ~= nil and id > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         DELETE FROM ReactionRole
@@ -168,7 +174,7 @@ function deleteReactionRoleAtId(id)
 
     local request = string.format(requestSkeleton, id)
 
-    assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     -- Aaand... that's it. Nothing more to do here
 end
 
@@ -180,7 +186,9 @@ end
 ---
 --- @param guildId number The Discord-like ID of the Guild to remove all reaction roles from.
 ---
-function deleteReactionRoleAtGuildId(guildId)
+--- @return void
+---
+function ReactionRoleService.deleteAtGuildId(guildId)
     assert(guildId ~= nil and guildId > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         DELETE FROM ReactionRole
@@ -190,5 +198,16 @@ function deleteReactionRoleAtGuildId(guildId)
 
     local request = string.format(requestSkeleton, guildId)
 
-    assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
 end
+
+---
+--- Calls for the environment set in this service to close. Has to be called at the very end of all treatments!!
+---
+--- @return void
+---
+function ReactionRoleService.closeEnv()
+    env.close()
+end
+
+return ReactionRoleService

@@ -7,8 +7,10 @@
 --- @since 1.0.0
 ---
 --- @licence MIT (https://github.com/Kamigami-no-Tanjou/KoishiTetsu-x-RyouwasaChimura/blob/main/LICENSE)
+--- @return self
 ---
-require 'Chimura.SetEnvironment'
+local GuildService = {}
+local env = require 'Chimura.SetEnvironment'
 require 'Chimura.Domain.Entities.Guild'
 
 ---
@@ -18,7 +20,7 @@ require 'Chimura.Domain.Entities.Guild'
 ---
 --- @return Guild The row of the DB corresponding to the given ID.
 ---
-function retrieveGuildFromId(id)
+function GuildService.retrieveFromId(id)
     assert(id ~= nil and id > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         SELECT
@@ -37,7 +39,7 @@ function retrieveGuildFromId(id)
 
     local request = string.format(requestSkeleton, id)
 
-    local result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    local result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     local row = assert(result:fetch({}, "a"), "{ \"err\":\"No lines found!\" }")
 
     result:close()
@@ -51,12 +53,14 @@ end
 ---
 --- @param row Guild The Guild object to insert or update in the database.
 ---
-function insertOrUpdateGuild(row)
+--- @return void
+---
+function GuildService.insertOrUpdate(row)
     --To do that, we're simply going to make a SELECT COUNT on the ID attribute of the guild object.
     local isNotNew
 
     local request = string.format("SELECT COUNT(ID) FROM Guild WHERE ID = %s", row.id)
-    local result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    local result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     local count = assert(result:fetch({}), "{ \"err\":\"No lines found!\" }")
 
     isNotNew = (tonumber(count[1]) > 0)
@@ -86,7 +90,7 @@ function insertOrUpdateGuild(row)
                 row.id
         )
 
-        result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+        result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
         -- No need to fetch anything here
     else                -- insert
         local requestSkeleton = [[
@@ -120,7 +124,7 @@ function insertOrUpdateGuild(row)
                 row.birthdayAlerts
         )
 
-        result = assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+        result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     end
 
     --result:close() /!\ Here result is not a cursor!
@@ -133,7 +137,9 @@ end
 ---
 --- @param id number The Discord-like ID of the server to remove from the database.
 ---
-function deleteGuildAtId(id)
+--- @return void
+---
+function GuildService.deleteAtId(id)
     assert(id ~= nil and id > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         DELETE FROM Guild
@@ -143,6 +149,17 @@ function deleteGuildAtId(id)
 
     local request = string.format(requestSkeleton, id)
 
-    assert(con:execute(request), "{ \"err\":\"Request failed!\" }")
+    assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     -- Aaand... that's it. Nothing more to do here (actually, there's a lot more to do, but that'll be for another time)
 end
+
+---
+--- Calls for the environment set in this service to close. Has to be called at the very end of all treatments!!
+---
+--- @return void
+---
+function GuildService.closeEnv()
+    env.close()
+end
+
+return GuildService
