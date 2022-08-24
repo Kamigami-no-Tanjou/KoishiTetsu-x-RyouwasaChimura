@@ -156,6 +156,7 @@ end
 --- @return void
 ---
 function DefaultCommandService.closeEnv()
+    caSv.closeEnv()
     env.close()
 end
 

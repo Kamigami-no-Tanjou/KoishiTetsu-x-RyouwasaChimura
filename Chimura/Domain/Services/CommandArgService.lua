@@ -269,6 +269,39 @@ function CommandArgService.deleteAtCustomCommandId(customCommandId)
 end
 
 ---
+--- This function deletes all the CommandArg linked to a list of CustomCommands.
+---
+--- @param customCommandIds number[] The array of custom commands IDs.
+---
+--- @return void
+---
+function CommandArgService.deleteFromCustomCommandList(customCommandIds)
+    local requestSkeleton = [[
+        DELETE FROM CommandArg
+        WHERE CustomCommandID IN
+        (%s)
+        ;
+    ]]
+
+    local values
+    local isFirst = true
+    for _,customCommandId in pairs(customCommandIds) do
+        if not isFirst then
+            values = values .. ", "
+        else
+            isFirst = false
+        end
+
+        values = values .. customCommandId
+    end
+
+    if values ~= nil then
+        local request = string.format(requestSkeleton, values)
+        assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
+    end
+end
+
+---
 --- Calls for the environment set in this service to close. Has to be called at the very end of all treatments!!
 ---
 --- @return void
