@@ -47,6 +47,39 @@ function WarningService.retrieveFromId(id)
     return Warning:new(row)
 end
 
+---
+--- This function allows us to retrieve a Warning from the DB thanks to the ID of its member.
+---
+--- @param memberId number The primary key of the Member to retrieve the warning for.
+---
+--- @return Warning The row of the DB corresponding to the given Member.
+---
+function WarningService.retrieveFromMemberId(memberId)
+    assert(memberId ~= nil and memberId > 0, "{ \"err\":\"Bad ID!\" }")
+    local requestSkeleton = [[
+        SELECT
+            ID AS id,
+            MemberID AS memberId,
+            Amount AS amount,
+            LastUpdate AS lastUpdate
+        FROM Warning
+        WHERE MemberID = %s
+        LIMIT 1
+        ;
+    ]]
+
+    local request = string.format(requestSkeleton, memberId)
+
+    local result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
+    local row = assert(result:fetch({}, "a"), "{ \"err\":\"No lines found!\" }")
+
+    -- Now we create the instance of Date for the LastUpdate:
+    row.lastUpdate = Date:new(row.lastUpdate)
+
+    result:close()
+    return Warning:new(row)
+end
+
 
 ---
 --- This function's purpose is to insert or update the given Warning object. It will check that whether the object
@@ -122,6 +155,62 @@ function WarningService.deleteAtId(id)
 
     assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     -- Aaand... that's it. Nothing more to do here
+end
+
+---
+--- This function's purpose is to delete the row of warning for the given member from the database.
+--- Be aware that, just like the MySQL DELETE statement, this method will NOT throw any error if there was no warning to
+--- delete.
+---
+--- @param memberId number The ID of the member to remove the warning from.
+---
+--- @return void
+---
+function WarningService.deleteAtMemberId(memberId)
+    assert(memberId ~= nil and memberId > 0, "{ \"err\":\"Bad ID!\" }")
+    local requestSkeleton = [[
+        DELETE FROM Warning
+        WHERE MemberID = %s
+        ;
+    ]]
+
+    local request = string.format(requestSkeleton, memberId)
+
+    assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
+    -- Aaand... that's it. Nothing more to do here
+end
+
+---
+--- This function deletes all the Warnings linked to a list of Members.
+---
+--- @param memberIds number[] The array of member IDs.
+---
+--- @return void
+---
+function WarningService.deleteFromMemberList(memberIds)
+    local requestSkeleton = [[
+        DELETE FROM Warning
+        WHERE MemberID IN
+        (%s)
+        ;
+    ]]
+
+    local values = ""
+    local isFirst = true
+    for _, memberId in pairs(memberIds) do
+        if not isFirst then
+            values = values .. ", "
+        else
+            isFirst = false
+        end
+
+        values = values .. memberId
+    end
+
+    if string.len(values) > 0 then
+        local request = string.format(requestSkeleton, values)
+        assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
+    end
 end
 
 ---

@@ -59,7 +59,7 @@ end
 ---
 local function insertRoleCustomCommands(roles, customCommandId)
     local requestSkeleton = [[
-        ISNERT INTO RoleCustomCommand(
+        INSERT INTO RoleCustomCommand(
             RoleID,
             CustomCommandID
         )
@@ -71,7 +71,7 @@ local function insertRoleCustomCommands(roles, customCommandId)
         (%s, %s)
     ]]
 
-    local values
+    local values = ""
     local isFirst = true
     for _,role in pairs(roles) do
         if not isFirst then
@@ -84,7 +84,7 @@ local function insertRoleCustomCommands(roles, customCommandId)
     end
 
     -- If, at the end of the loop, the values variable is nil, then there is no insert to make.
-    if values ~= nil then
+    if string.len(values) > 0 then
         local request = string.format(requestSkeleton, values)
         assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     end
@@ -100,7 +100,7 @@ end
 ---
 local function insertMemberCustomCommands(members, customCommandId)
     local requestSkeleton = [[
-        ISNERT INTO MemberCustomCommand(
+        INSERT INTO MemberCustomCommand(
             MemberID,
             CustomCommandID
         )
@@ -112,7 +112,7 @@ local function insertMemberCustomCommands(members, customCommandId)
         (%s, %s)
     ]]
 
-    local values
+    local values = ""
     local isFirst = true
     for _,member in pairs(members) do
         if not isFirst then
@@ -125,7 +125,7 @@ local function insertMemberCustomCommands(members, customCommandId)
     end
 
     -- If, at the end of the loop, the values variable is nil, then there is no insert to make.
-    if values ~= nil then
+    if string.len(values) > 0 then
         local request = string.format(requestSkeleton, values)
         assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     end
@@ -315,7 +315,7 @@ local function deleteRoleCustomCommandsFromList(customCommandIds)
         ;
     ]]
 
-    local values
+    local values = ""
     local isFirst = true
     for _,customCommandId in pairs(customCommandIds) do
         if not isFirst then
@@ -327,7 +327,7 @@ local function deleteRoleCustomCommandsFromList(customCommandIds)
         values = values .. customCommandId
     end
 
-    if values ~= nil then
+    if string.len(values) > 0  then
         local request = string.format(requestSkeleton, values)
         assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     end
@@ -348,7 +348,7 @@ local function deleteMemberCustomCommandsFromList(customCommandIds)
         ;
     ]]
 
-    local values
+    local values = ""
     local isFirst = true
     for _,customCommandId in pairs(customCommandIds) do
         if not isFirst then
@@ -360,7 +360,7 @@ local function deleteMemberCustomCommandsFromList(customCommandIds)
         values = values .. customCommandId
     end
 
-    if values ~= nil then
+    if string.len(values) > 0 then
         local request = string.format(requestSkeleton, values)
         assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     end
@@ -468,10 +468,10 @@ end
 ---
 --- @return CustomCommand[] The array of CustomCommand attributed to the given Member.
 ---
-function CustomCommandService.retrieveFromRoleId(roleId)
+function CustomCommandService.retrieveFromMemberId(memberId)
     local customCommands = {}
 
-    assert(roleId ~= nil and roleId > 0, "{ \"err\":\"Bad ID!\" }")
+    assert(memberId ~= nil and memberId > 0, "{ \"err\":\"Bad ID!\" }")
     local requestSkeleton = [[
         SELECT
             CCM.ID AS id,
@@ -489,7 +489,7 @@ function CustomCommandService.retrieveFromRoleId(roleId)
         ;
     ]]
 
-    local request = string.format(requestSkeleton, roleId)
+    local request = string.format(requestSkeleton, memberId)
 
     local result = assert(env.con:execute(request), "{ \"err\":\"Request failed!\" }")
     local row = result:fetch({}, "a")
@@ -535,7 +535,6 @@ function CustomCommandService.retrieveFromGuildId(guildId)
             GuildID AS guildID
         FROM CustomCommand
         WHERE GuildID = %s
-        LIMIT 1
         ;
     ]]
 
